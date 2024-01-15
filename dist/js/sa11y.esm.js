@@ -1786,6 +1786,14 @@ class ControlPanel extends HTMLElement {
         </button>
       </li>` : '';
 
+      const altTextApiKey = `
+      <div class="alt-text-api">
+      <label for="alt-text-api-key">Chat GPT API key: </label>
+        <input type="password" id="alt-text-api-key">
+        <button type="button" id="js-api-key-save">Save</button>
+      </div>
+      `;
+
     /* MAIN TOGGLE */
     const mainToggle = `
       <button type="button" aria-expanded="false" id="toggle" aria-describedby="notification-badge" aria-label="${Lang._('MAIN_TOGGLE_LABEL')}" class="${panelPosition}" disabled>
@@ -1849,6 +1857,7 @@ class ControlPanel extends HTMLElement {
             </li>
             ${exportResultsPlugin}
             ${colourFilterPlugin}
+            ${altTextApiKey}
           </ul>
         </div>
       </div>`;
@@ -2297,6 +2306,32 @@ function initializePanelToggles() {
   setTimeout(() => {
     isScrollable(Constants.Panel.pageIssuesList, Constants.Panel.pageIssuesContent);
   }, 0);
+
+  // ALT text API ChatGPT key management
+  /*
+  <input type="password" id="api-key">
+        <button type="button" id="js-api-key-save">Save</button>
+  */
+ const jsApiKeyBtnId = "js-api-key-save";
+  document.getElementById(jsApiKeyBtnId);
+  const jsApiKeyInput = Constants.Panel.settings.querySelector("#alt-text-api-key");
+  const jsApiKeyKey = 'sa11y-alt-text-api-key';
+  if (store.getItem(jsApiKeyKey)) {
+    jsApiKeyInput.value = store.getItem(jsApiKeyKey);
+  }
+
+
+  console.log(Constants.Panel.settings);
+  Constants.Panel.settings.addEventListener("click", (e) => {
+     console.log(e.target);
+     if(e.target.getAttribute("id") === jsApiKeyBtnId){
+      console.log(jsApiKeyInput);
+      store.setItem(jsApiKeyKey, jsApiKeyInput.value);
+     }
+      //
+    
+  });
+
 
   // Enhanced keyboard accessibility for panel.
   Constants.Panel.controls.addEventListener('keydown', (e) => {
@@ -8578,16 +8613,36 @@ class Sa11y {
         // Ruleset checks
         checkHeaders(this.results, option, this.headingOutline);
         checkLinkText(this.results, option);
+        
+        //let resultsBeforeImages = Object.assign({}, this.results)
         checkImages(this.results, option);
+        //let resultsAfterImages = Object.assign({}, this.results)
+        //console.log("Image warnings and errors: ", Object.keys(resultsAfterImages).length - Object.keys(resultsBeforeImages).length);
+        //console.log(resultsAfterImages)
+        
         checkContrast(this.results, option);
         checkLabels(this.results, option);
         checkQA(this.results, option);
         checkEmbeddedContent(this.results, option);
+
         checkReadability();
+        
         if (option.customChecks) checkCustom(this.results);
 
         // Filter out heading issues that are outside of the root target.
         this.results = this.results.filter((item) => item.isWithinRoot !== false);
+
+        // images only, simplest way to isolate from other logic
+        let imageProblems = [];
+        checkImages(imageProblems, option);
+
+        // filter out "good"
+        imageProblems = imageProblems.filter( img => img.type !== "good");
+        
+        console.log(imageProblems);
+
+        console.log(imageProblems.length);
+  
 
         // Generate HTML path, and optionally CSS selector path of element.
         this.results.forEach(($el) => {
@@ -8595,6 +8650,9 @@ class Sa11y {
           const htmlPath = $el.element?.outerHTML.replace(/\s{2,}/g, ' ').trim() || '';
           Object.assign($el, { htmlPath, cssPath });
         });
+
+        
+
 
         if (option.headless === false) {
           // Check for dismissed items and update results array.
