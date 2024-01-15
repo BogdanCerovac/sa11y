@@ -118,8 +118,7 @@ export default function initializePanelToggles() {
 
   // ALT text API ChatGPT key management
   /*
-  <input type="password" id="api-key">
-        <button type="button" id="js-api-key-save">Save</button>
+  TODO ENCRYPT somehow
   */
  const jsApiKeyBtnId = "js-api-key-save";
   const jsApiKeyBtn = document.getElementById(jsApiKeyBtnId);

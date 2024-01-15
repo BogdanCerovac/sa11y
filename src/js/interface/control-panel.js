@@ -97,6 +97,7 @@ export default class ControlPanel extends HTMLElement {
         </button>
       </li>` : '';
 
+      // TODO WIP
       const altTextApiKey = `<!--
       <div class="alt-text-api">
       <label for="alt-text-api-key">Chat GPT API key: </label>
