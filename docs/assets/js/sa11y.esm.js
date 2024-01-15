@@ -1786,6 +1786,7 @@ class ControlPanel extends HTMLElement {
         </button>
       </li>` : '';
 
+      // TODO WIP
       const altTextApiKey = `<!--
       <div class="alt-text-api">
       <label for="alt-text-api-key">Chat GPT API key: </label>
@@ -2309,8 +2310,7 @@ function initializePanelToggles() {
 
   // ALT text API ChatGPT key management
   /*
-  <input type="password" id="api-key">
-        <button type="button" id="js-api-key-save">Save</button>
+  TODO ENCRYPT somehow
   */
  const jsApiKeyBtnId = "js-api-key-save";
   document.getElementById(jsApiKeyBtnId);
