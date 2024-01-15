@@ -131,12 +131,20 @@ class Sa11y {
         // Ruleset checks
         checkHeaders(this.results, option, this.headingOutline);
         checkLinkText(this.results, option);
+        
+        let resultsBeforeImages = Object.assign({}, this.results)
         checkImages(this.results, option);
+        let resultsAfterImages = Object.assign({}, this.results)
+        console.log("Image warnings and errors: ", Object.keys(resultsAfterImages).length - Object.keys(resultsBeforeImages).length);
+        console.log(resultsAfterImages)
+        
         checkContrast(this.results, option);
         checkLabels(this.results, option);
         checkQA(this.results, option);
         checkEmbeddedContent(this.results, option);
+
         checkReadability();
+        
         if (option.customChecks) checkCustom(this.results);
 
         // Filter out heading issues that are outside of the root target.
