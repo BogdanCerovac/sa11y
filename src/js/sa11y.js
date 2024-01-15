@@ -132,11 +132,11 @@ class Sa11y {
         checkHeaders(this.results, option, this.headingOutline);
         checkLinkText(this.results, option);
         
-        let resultsBeforeImages = Object.assign({}, this.results)
+        //let resultsBeforeImages = Object.assign({}, this.results)
         checkImages(this.results, option);
-        let resultsAfterImages = Object.assign({}, this.results)
-        console.log("Image warnings and errors: ", Object.keys(resultsAfterImages).length - Object.keys(resultsBeforeImages).length);
-        console.log(resultsAfterImages)
+        //let resultsAfterImages = Object.assign({}, this.results)
+        //console.log("Image warnings and errors: ", Object.keys(resultsAfterImages).length - Object.keys(resultsBeforeImages).length);
+        //console.log(resultsAfterImages)
         
         checkContrast(this.results, option);
         checkLabels(this.results, option);
@@ -150,12 +150,27 @@ class Sa11y {
         // Filter out heading issues that are outside of the root target.
         this.results = this.results.filter((item) => item.isWithinRoot !== false);
 
+        // images only, simplest way to isolate from other logic
+        let imageProblems = [];
+        checkImages(imageProblems, option);
+
+        // filter out "good"
+        imageProblems = imageProblems.filter( img => img.type !== "good");
+        
+        console.log(imageProblems);
+
+        console.log(imageProblems.length)
+  
+
         // Generate HTML path, and optionally CSS selector path of element.
         this.results.forEach(($el) => {
           const cssPath = option.selectorPath ? Utils.generateSelectorPath($el.element) : '';
           const htmlPath = $el.element?.outerHTML.replace(/\s{2,}/g, ' ').trim() || '';
           Object.assign($el, { htmlPath, cssPath });
         });
+
+        
+
 
         if (option.headless === false) {
           // Check for dismissed items and update results array.
