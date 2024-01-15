@@ -126,7 +126,9 @@ export default function initializePanelToggles() {
   const jsApiKeyInput = Constants.Panel.settings.querySelector("#alt-text-api-key");
   const jsApiKeyKey = 'sa11y-alt-text-api-key';
   if (store.getItem(jsApiKeyKey)) {
-    jsApiKeyInput.value = store.getItem(jsApiKeyKey)
+    if(jsApiKeyInput){
+      jsApiKeyInput.value = store.getItem(jsApiKeyKey);
+    }
   }
 
 
