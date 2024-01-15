@@ -97,6 +97,14 @@ export default class ControlPanel extends HTMLElement {
         </button>
       </li>` : '';
 
+      const altTextApiKey = `
+      <div class="alt-text-api">
+      <label for="alt-text-api-key">Chat GPT API key: </label>
+        <input type="password" id="alt-text-api-key">
+        <button type="button" id="js-api-key-save">Save</button>
+      </div>
+      `
+
     /* MAIN TOGGLE */
     const mainToggle = `
       <button type="button" aria-expanded="false" id="toggle" aria-describedby="notification-badge" aria-label="${Lang._('MAIN_TOGGLE_LABEL')}" class="${panelPosition}" disabled>
@@ -160,6 +168,7 @@ export default class ControlPanel extends HTMLElement {
             </li>
             ${exportResultsPlugin}
             ${colourFilterPlugin}
+            ${altTextApiKey}
           </ul>
         </div>
       </div>`;

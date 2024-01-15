@@ -116,6 +116,32 @@ export default function initializePanelToggles() {
     isScrollable(Constants.Panel.pageIssuesList, Constants.Panel.pageIssuesContent);
   }, 0);
 
+  // ALT text API ChatGPT key management
+  /*
+  <input type="password" id="api-key">
+        <button type="button" id="js-api-key-save">Save</button>
+  */
+ const jsApiKeyBtnId = "js-api-key-save";
+  const jsApiKeyBtn = document.getElementById(jsApiKeyBtnId);
+  const jsApiKeyInput = Constants.Panel.settings.querySelector("#alt-text-api-key");
+  const jsApiKeyKey = 'sa11y-alt-text-api-key';
+  if (store.getItem(jsApiKeyKey)) {
+    jsApiKeyInput.value = store.getItem(jsApiKeyKey)
+  }
+
+
+  console.log(Constants.Panel.settings)
+  Constants.Panel.settings.addEventListener("click", (e) => {
+     console.log(e.target)
+     if(e.target.getAttribute("id") === jsApiKeyBtnId){
+      console.log(jsApiKeyInput)
+      store.setItem(jsApiKeyKey, jsApiKeyInput.value);
+     }
+      //
+    
+  })
+
+
   // Enhanced keyboard accessibility for panel.
   Constants.Panel.controls.addEventListener('keydown', (e) => {
     const $tab = Constants.Panel.panel.querySelectorAll('#outline-toggle[role=tab], #settings-toggle[role=tab]');
