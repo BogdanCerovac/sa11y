@@ -1792,12 +1792,12 @@
         </button>
       </li>` : '';
 
-        const altTextApiKey = `
+        const altTextApiKey = `<!--
       <div class="alt-text-api">
       <label for="alt-text-api-key">Chat GPT API key: </label>
         <input type="password" id="alt-text-api-key">
         <button type="button" id="js-api-key-save">Save</button>
-      </div>
+      </div>-->
       `;
 
       /* MAIN TOGGLE */
@@ -2323,7 +2323,9 @@
     const jsApiKeyInput = Constants.Panel.settings.querySelector("#alt-text-api-key");
     const jsApiKeyKey = 'sa11y-alt-text-api-key';
     if (store.getItem(jsApiKeyKey)) {
-      jsApiKeyInput.value = store.getItem(jsApiKeyKey);
+      if(jsApiKeyInput){
+        jsApiKeyInput.value = store.getItem(jsApiKeyKey);
+      }
     }
 
 
